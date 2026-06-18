@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tabs>
+    <tab>
+        <id>tab-overview</id>
+        <label>Overview</label>
+        <content>TYPO3 is a free and open-source enterprise Content Management System. It provides a stable and reliable foundation for building websites of all sizes.</content>
+    </tab>
+    <tab>
+        <id>tab-features</id>
+        <label>Features</label>
+        <content>Inlinefluid lets editors write Fluid templates directly in the TYPO3 backend — no sitepackage deployment needed for simple rendering tasks.</content>
+    </tab>
+    <tab>
+        <id>tab-contact</id>
+        <label>Contact</label>
+        <content>For support and questions please visit the TYPO3 Slack workspace or open an issue in the extension repository.</content>
+    </tab>
+</tabs>

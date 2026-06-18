@@ -1,0 +1,15 @@
+tt_content.inlinefluid_editor = USER_INT
+tt_content.inlinefluid_editor {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    extensionName = Inlinefluid
+    pluginName = Editor
+    vendorName = Sg3w
+}
+
+tt_content.inlinefluid_editorcached = USER
+tt_content.inlinefluid_editorcached {
+    userFunc = TYPO3\CMS\Extbase\Core\Bootstrap->run
+    extensionName = Inlinefluid
+    pluginName = EditorCached
+    vendorName = Sg3w
+}

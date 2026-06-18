@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0" xmlns:t3="http://typo3.org/schemas/xliff">
+	<file source-language="en" datatype="plaintext" product-name="inlinefluid">
+		<header/>
+		<body>
+			<trans-unit id="plugin.title">
+				<source>Inline Fluid Editor</source>
+			</trans-unit>
+            <trans-unit id="plugin.titleCached">
+                <source>Inline Fluid Editor Cached</source>
+            </trans-unit>
+			<trans-unit id="plugin.description">
+				<source>Render Fluid code directly on a page with configurable data providers. Output is not cached.</source>
+			</trans-unit>
+			<trans-unit id="plugin.descriptionCached">
+				<source>Render Fluid code directly on a page with configurable data providers. Output is cached.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

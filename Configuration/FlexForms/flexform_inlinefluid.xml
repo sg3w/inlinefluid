@@ -1,0 +1,607 @@
+<T3DataStructure>
+    <sheets>
+
+        <sDEF>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.settings</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+
+                    <settings.addglobalvariables>
+                        <TCEforms>
+                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:settings.addGlobalVariables</label>
+                            <config>
+                                <type>select</type>
+                                <renderType>selectCheckBox</renderType>
+                                <items>
+                                    <numIndex index="0">
+                                        <numIndex index="0">LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:globals.request</numIndex>
+                                        <numIndex index="1">request</numIndex>
+                                    </numIndex>
+                                    <numIndex index="1">
+                                        <numIndex index="0">LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:globals.contentObject</numIndex>
+                                        <numIndex index="1">contentobject</numIndex>
+                                    </numIndex>
+                                    <numIndex index="2">
+                                        <numIndex index="0">LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:globals.page</numIndex>
+                                        <numIndex index="1">page</numIndex>
+                                    </numIndex>
+                                    <numIndex index="3">
+                                        <numIndex index="0">LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:globals.tsfe</numIndex>
+                                        <numIndex index="1">tsfe</numIndex>
+                                    </numIndex>
+                                    <numIndex index="4">
+                                        <numIndex index="0">LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:globals.tssetup</numIndex>
+                                        <numIndex index="1">tssetup</numIndex>
+                                    </numIndex>
+                                </items>
+                                <cols>3</cols>
+                            </config>
+                        </TCEforms>
+                    </settings.addglobalvariables>
+
+                </el>
+            </ROOT>
+        </sDEF>
+
+        <sheet.variables>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.variables</sheetTitle>
+                    <sheetDescription>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.variables.description</sheetDescription>
+                </TCEforms>
+                <type>array</type>
+                <el>
+
+                    <variableproviders>
+                        <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:provider.variables</title>
+                        <type>array</type>
+                        <section>1</section>
+                        <el>
+
+                            <input>
+                                <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:variables.input</title>
+                                <type>array</type>
+                                <el>
+
+                                    <varname>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                            <config>
+                                                <type>input</type>
+                                                <size>100</size>
+                                                <eval>trim,required</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </varname>
+
+                                    <data>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableData</label>
+                                            <config>
+                                                <type>input</type>
+                                                <size>255</size>
+                                                <eval>trim,required</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </data>
+
+
+
+                                </el>
+                            </input>
+
+                            <text>
+                                <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:variables.text</title>
+                                <type>array</type>
+                                <el>
+
+                                    <varname>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                            <config>
+                                                <type>input</type>
+                                                <size>100</size>
+                                                <eval>trim,required</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </varname>
+
+                                    <data>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableData</label>
+                                            <config>
+                                                <type>text</type>
+                                                <cols>50</cols>
+                                                <rows>10</rows>
+                                                <eval>trim,required</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </data>
+
+
+                                </el>
+                            </text>
+
+                            <link>
+                                <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:variables.link</title>
+                                <type>array</type>
+                                <el>
+
+                                    <varname>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                            <config>
+                                                <type>input</type>
+                                                <size>100</size>
+                                                <eval>trim,required</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </varname>
+
+                                    <data>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableData</label>
+                                            <config>
+                                                <type>input</type>
+                                                <renderType>inputLink</renderType>
+                                                <size>100</size>
+                                                <eval>trim,required</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </data>
+
+                                </el>
+                            </link>
+
+                            <rte>
+                                <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:variables.rte</title>
+                                <type>array</type>
+                                <el>
+
+                                    <varname>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                            <config>
+                                                <type>input</type>
+                                                <size>255</size>
+                                                <eval>trim,required</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </varname>
+
+                                    <data>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableData</label>
+                                            <config>
+                                                <type>text</type>
+                                                <cols>100</cols>
+                                                <rows>5</rows>
+                                                <eval>trim,required</eval>
+                                                <enableRichtext>true</enableRichtext>
+                                            </config>
+                                        </TCEforms>
+                                    </data>
+
+                                </el>
+                            </rte>
+
+                        </el>
+                    </variableproviders>
+
+                </el>
+            </ROOT>
+        </sheet.variables>
+
+        <media>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.media</sheetTitle>
+                </TCEforms>
+                <type>array</type>
+                <el>
+
+                    <mediaImage>
+                        <TCEforms>
+                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.image</label>
+                            <config>
+                                <type>inline</type>
+
+                                <foreign_table>sys_file_reference</foreign_table>
+                                <foreign_field>uid_foreign</foreign_field>
+                                <foreign_sortby>sorting_foreign</foreign_sortby>
+                                <foreign_table_field>tablenames</foreign_table_field>
+
+                                <foreign_match_fields>
+                                    <fieldname>mediaImage</fieldname>
+                                </foreign_match_fields>
+
+                                <foreign_label>uid_local</foreign_label>
+                                <foreign_selector>uid_local</foreign_selector>
+
+                                <foreign_selector_fieldTcaOverride>
+                                    <config>
+                                        <appearance>
+                                            <elementBrowserType>file</elementBrowserType>
+                                            <elementBrowserAllowed>jpg,jpeg,png,webp,svg</elementBrowserAllowed>
+                                        </appearance>
+                                    </config>
+                                </foreign_selector_fieldTcaOverride>
+
+                                <appearance>
+                                    <useSortable>1</useSortable>
+                                    <enabledControls>
+                                        <new>0</new>
+                                        <dragdrop>1</dragdrop>
+                                        <sort>1</sort>
+                                        <hide>1</hide>
+                                        <delete>1</delete>
+                                    </enabledControls>
+                                </appearance>
+
+                                <minitems>0</minitems>
+                                <maxitems>20</maxitems>
+                            </config>
+                        </TCEforms>
+                    </mediaImage>
+
+                </el>
+            </ROOT>
+        </media>
+
+        <sheet.data>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.data</sheetTitle>
+                    <sheetDescription>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.data.description</sheetDescription>
+                </TCEforms>
+                <type>array</type>
+                <el>
+
+                    <staticdataproviders>
+                        <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:provider.static</title>
+                        <type>array</type>
+                        <section>1</section>
+                        <el>
+
+                            <json>
+                                <title>JSON</title>
+                                <type>array</type>
+                                <el>
+                                    <varname>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                            <config>
+                                                <type>input</type>
+                                                <size>255</size>
+                                                <eval>trim</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </varname>
+                                    <data>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob</label>
+                                            <description>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob.description</description>
+                                            <config>
+                                                <type>text</type>
+                                                <renderType>t3editor</renderType>
+                                                <format>javascript</format>
+                                                <wrap>off</wrap>
+                                            </config>
+                                        </TCEforms>
+                                    </data>
+                                </el>
+                            </json>
+
+                            <yaml>
+                                <title>YAML</title>
+                                <type>array</type>
+                                <el>
+                                    <varname>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                            <config>
+                                                <type>input</type>
+                                                <size>255</size>
+                                                <eval>trim</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </varname>
+                                    <data>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob</label>
+                                            <description>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob.description</description>
+                                            <config>
+                                                <type>text</type>
+                                                <renderType>t3editor</renderType>
+                                                <format>javascript</format>
+                                                <wrap>off</wrap>
+                                            </config>
+                                        </TCEforms>
+                                    </data>
+                                </el>
+                            </yaml>
+
+                            <xml>
+                                <title>XML</title>
+                                <type>array</type>
+                                <el>
+                                    <varname>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                            <config>
+                                                <type>input</type>
+                                                <size>255</size>
+                                                <eval>trim</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </varname>
+                                    <data>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob</label>
+                                            <description>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob.description</description>
+                                            <config>
+                                                <type>text</type>
+                                                <renderType>t3editor</renderType>
+                                                <format>xml</format>
+                                                <wrap>off</wrap>
+                                            </config>
+                                        </TCEforms>
+                                    </data>
+                                </el>
+                            </xml>
+
+                            <csv>
+                                <title>CSV</title>
+                                <type>array</type>
+                                <el>
+                                    <varname>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                            <config>
+                                                <type>input</type>
+                                                <size>255</size>
+                                                <eval>trim</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </varname>
+                                    <data>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob</label>
+                                            <description>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob.description</description>
+                                            <config>
+                                                <type>text</type>
+                                                <renderType>t3editor</renderType>
+                                                <format>javascript</format>
+                                                <wrap>off</wrap>
+                                            </config>
+                                        </TCEforms>
+                                    </data>
+                                </el>
+                            </csv>
+
+                            <serialized>
+                                <title>Serialized</title>
+                                <type>array</type>
+                                <el>
+                                    <varname>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                            <config>
+                                                <type>input</type>
+                                                <size>255</size>
+                                                <eval>trim</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </varname>
+                                    <data>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob</label>
+                                            <description>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob.description</description>
+                                            <config>
+                                                <type>text</type>
+                                                <renderType>t3editor</renderType>
+                                                <format>php</format>
+                                                <wrap>off</wrap>
+                                            </config>
+                                        </TCEforms>
+                                    </data>
+                                </el>
+                            </serialized>
+
+                        </el>
+                    </staticdataproviders>
+
+                    <filedataprovider>
+                        <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:provider.staticFile</title>
+                        <type>array</type>
+                        <section>1</section>
+                        <el>
+                            <file>
+                                <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:provider.staticFile.item</title>
+                                <type>array</type>
+                                <el>
+
+                                    <varname>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                            <config>
+                                                <type>input</type>
+                                                <size>255</size>
+                                                <eval>trim,required</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </varname>
+
+                                    <format>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.format</label>
+                                            <config>
+                                                <type>select</type>
+                                                <renderType>selectSingle</renderType>
+                                                <items type="array">
+                                                    <numIndex index="0" type="array">
+                                                        <numIndex index="0">JSON</numIndex>
+                                                        <numIndex index="1">json</numIndex>
+                                                    </numIndex>
+                                                    <numIndex index="1" type="array">
+                                                        <numIndex index="0">XML</numIndex>
+                                                        <numIndex index="1">xml</numIndex>
+                                                    </numIndex>
+                                                    <numIndex index="2" type="array">
+                                                        <numIndex index="0">YAML</numIndex>
+                                                        <numIndex index="1">yaml</numIndex>
+                                                    </numIndex>
+                                                    <numIndex index="3" type="array">
+                                                        <numIndex index="0">CSV</numIndex>
+                                                        <numIndex index="1">csv</numIndex>
+                                                    </numIndex>
+                                                    <numIndex index="4" type="array">
+                                                        <numIndex index="0">Plain TXT</numIndex>
+                                                        <numIndex index="1">plain</numIndex>
+                                                    </numIndex>
+                                                </items>
+                                                <default>json</default>
+                                            </config>
+                                        </TCEforms>
+                                    </format>
+
+                                    <filename>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.filename</label>
+                                            <description>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.filename.description</description>
+                                            <config>
+                                                <type>input</type>
+                                                <size>50</size>
+                                                <eval>trim,required</eval>
+                                                <softref>ext_fileref</softref>
+                                            </config>
+                                        </TCEforms>
+                                    </filename>
+
+                                </el>
+                            </file>
+                        </el>
+                    </filedataprovider>
+
+                </el>
+            </ROOT>
+        </sheet.data>
+
+        <sheet.dynamic>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.dynamic</sheetTitle>
+                    <sheetDescription>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.dynamic.description</sheetDescription>
+                </TCEforms>
+                <type>array</type>
+                <el>
+
+                    <dynamicdataproviders>
+                        <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:provider.dynamic</title>
+                        <type>array</type>
+                        <section>1</section>
+                        <el>
+                            <php>
+                                <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:dynamic.php.title</title>
+                                <type>array</type>
+                                <el>
+
+                                    <varname>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                            <config>
+                                                <type>input</type>
+                                                <size>255</size>
+                                                <eval>trim,required</eval>
+                                            </config>
+                                        </TCEforms>
+                                    </varname>
+
+                                    <providerData>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.providerClass</label>
+                                            <config>
+                                                <type>input</type>
+                                                <size>255</size>
+                                                <eval>trim,required</eval>
+                                                <default>\Sg3w\Inlinefluid\DataProvider\External\ExternalDemoDataProvider</default>
+                                            </config>
+                                        </TCEforms>
+                                    </providerData>
+
+                                </el>
+                            </php>
+                        </el>
+                    </dynamicdataproviders>
+
+                </el>
+            </ROOT>
+        </sheet.dynamic>
+
+        <sheet.html>
+            <ROOT>
+                <TCEforms>
+                    <sheetTitle>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.html</sheetTitle>
+                    <sheetDescription>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.html.description</sheetDescription>
+                </TCEforms>
+                <type>array</type>
+                <el>
+
+                    <htmlelements>
+                        <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:html.blocks</title>
+                        <type>array</type>
+                        <section>1</section>
+                        <el>
+                            <htmlelement>
+                                <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:html.block</title>
+                                <type>array</type>
+                                <el>
+
+                                    <position>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.htmlPosition</label>
+                                            <config>
+                                                <type>select</type>
+                                                <renderType>selectSingle</renderType>
+                                                <items type="array">
+                                                    <numIndex index="0" type="array">
+                                                        <numIndex index="0">LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:html.before</numIndex>
+                                                        <numIndex index="1">0</numIndex>
+                                                    </numIndex>
+                                                    <numIndex index="1" type="array">
+                                                        <numIndex index="0">LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:html.after</numIndex>
+                                                        <numIndex index="1">1</numIndex>
+                                                    </numIndex>
+                                                </items>
+                                            </config>
+                                        </TCEforms>
+                                    </position>
+
+                                    <content>
+                                        <TCEforms>
+                                            <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.htmlContent</label>
+                                            <config>
+                                                <type>text</type>
+                                                <renderType>t3editor</renderType>
+                                                <format>html</format>
+                                                <wrap>off</wrap>
+                                            </config>
+                                        </TCEforms>
+                                    </content>
+
+                                </el>
+                            </htmlelement>
+                        </el>
+                    </htmlelements>
+
+                </el>
+            </ROOT>
+        </sheet.html>
+
+
+
+    </sheets>
+</T3DataStructure>

@@ -1,0 +1,22 @@
+mod.wizards.newContentElement.wizardItems.special {
+    elements {
+        inlinefluid_editor {
+            iconIdentifier = extensions-inlinefluid-editor
+            title = LLL:EXT:inlinefluid/Resources/Private/Language/locallang.xlf:plugin.title
+            description = LLL:EXT:inlinefluid/Resources/Private/Language/locallang.xlf:plugin.description
+            tt_content_defValues {
+                CType = inlinefluid_editor
+            }
+        }
+        inlinefluid_editorcached {
+            iconIdentifier = extensions-inlinefluid-editor
+            title = LLL:EXT:inlinefluid/Resources/Private/Language/locallang.xlf:plugin.titleCached
+            description = LLL:EXT:inlinefluid/Resources/Private/Language/locallang.xlf:plugin.descriptionCached
+            tt_content_defValues {
+                CType = inlinefluid_editorcached
+            }
+        }
+    }
+    # show am besten explizit:
+    show = *
+}

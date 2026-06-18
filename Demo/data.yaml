@@ -1,0 +1,183 @@
+# ==========================================================
+# Symfony YAML Test File – Feature Showcase (Compatible)
+# ==========================================================
+
+# -------- Basic Data Types ---------------------------------
+
+string: "Hello World"
+integer: 42
+float: 3.14159
+boolean_true: true
+boolean_false: false
+null_value: null
+empty_string: ""
+quoted_string: "With \"escapes\" and umlauts äöüß"
+single_quoted_literal: 'No escape processing: \n \t $HOME'
+big_integer: 999999999999999999999999
+scientific_float: 1.23e4
+hex_number_as_string: "0xFF"
+
+# -------- Multiline Strings ---------------------------------
+
+multiline_literal: |
+  This is a literal block.
+  Line breaks and spacing are preserved exactly.
+  Useful for long texts, code or logs.
+
+multiline_folded: >
+  This is a folded block.
+  Line breaks are converted to spaces,
+  except for blank lines.
+
+multiline_indented: |
+  This block is indented deliberately.
+  Handy for nested structures.
+
+# -------- Lists / Sequences --------------------------------
+
+simple_list:
+  - Apple
+  - Banana
+  - Cherry
+
+inline_list: [red, green, blue]
+
+nested_lists:
+  - - 1
+    - 2
+    - [3, 4]
+  - - a
+    - b
+    - c
+
+list_of_maps:
+  - name: Alice
+    age: 30
+  - name: Bob
+    age: 40
+    tags:
+      - admin
+      - editor
+
+# -------- Maps / Objects -----------------------------------
+
+simple_map:
+  key1: value_one
+  key2: value_two
+  key3: { nested: "inline", number: 10 }
+
+nested_map:
+  level1:
+    level2:
+      level3_key: "Deeply nested value"
+      list_inside:
+        - item1
+        - item2
+
+# -------- Simulated Set (as list with unique values) -------
+
+unique_values_simulated_set:
+  - Dog
+  - Cat
+  - Mouse
+
+# -------- Anchors / Aliases / Merge Keys -------------------
+
+default_settings: &defaults
+  retries: 5
+  timeout: 30
+  enabled: true
+  log_level: "info"
+
+backend_task:
+  <<: *defaults
+  name: "Backend Job"
+  timeout: 60 # override
+
+frontend_task:
+  <<: *defaults
+  name: "Frontend Job"
+
+database_template: &db_conf
+  host: localhost
+  port: 5432
+  user: admin
+
+database_production:
+  <<: *db_conf
+  password: "PROD_PASS_123"
+  dbname: "app_prod"
+
+database_development:
+  <<: *db_conf
+  password: "dev123"
+  dbname: "app_dev"
+
+# -------- Type-like Values (keine Tags, nur Strings) -------
+
+typed_examples:
+  integer_as_string: "100"
+  float_as_string: "9.81"
+  string_from_number: "12345"
+  timestamp_iso8601: "2025-11-28T12:34:56Z"
+  base64_string: "VGhpcyBpcyBhIGJhc2U2NC1lbmNvZGVkIGJpbmFyeSBzdHJpbmcuCg=="
+
+# -------- Complex Keys (still valid YAML) -------------------
+
+"?special_chars=✓&query=test": "URL-style key"
+
+"key with spaces & symbols @#$": "some_value"
+
+# -------- Maps that rely on ordering (YAML keeps it) -------
+
+ordered_looking_map:
+  step1: "Initialize"
+  step2: "Process"
+  step3: "Finalize"
+
+duplicate_keys_example_note: "Symfony will usually keep the last value if keys are duplicated."
+
+# -------- Env-Style Variables / Template Patterns ----------
+
+environment_variables:
+  path: "${HOME}/project"               # interpreted as plain string
+  secret: "${ENV_SECRET:-default123}"
+  lookup_examples:
+    - "$USER"
+    - "${PWD}"
+    - "${DATE:?must_be_set}"
+
+# -------- String Patterns that look like YAML types --------
+
+tricky_values:
+  yes_as_string: "yes"
+  no_as_string: "no"
+  on_as_string: "on"
+  off_as_string: "off"
+  null_as_string: "null"
+  number_like_string: "0123"
+  boolean_true_as_string: "true"
+  boolean_false_as_string: "false"
+
+# -------- Symfony-style Config-ish Example -----------------
+
+framework_like_config:
+  router:
+    resource: "%kernel.project_dir%/config/routes.yaml"
+    strict_requirements: true
+
+  cache:
+    app: cache.adapter.filesystem
+    system: cache.adapter.system
+
+  session:
+    handler_id: null
+    cookie_secure: auto
+    cookie_samesite: lax
+
+  monolog:
+    handlers:
+      main:
+        type: stream
+        path: "%kernel.logs_dir%/app.log"
+        level: debug

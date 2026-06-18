@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2">
+  <file source-language="en" datatype="plaintext">
+    <body>
+
+      <!-- ================= Sheets ================= -->
+
+      <trans-unit id="sheet.settings">
+        <source>Settings</source>
+      </trans-unit>
+
+      <trans-unit id="sheet.variables">
+        <source>Variables</source>
+      </trans-unit>
+
+      <trans-unit id="sheet.variables.description">
+        <source>Add variables for Fluid templates or dynamic data providers.</source>
+      </trans-unit>
+
+      <trans-unit id="sheet.data">
+        <source>Static Data Provider</source>
+      </trans-unit>
+
+      <trans-unit id="sheet.data.description">
+        <source>Add static data in JSON, XML, YAML, CSV or serialized format.</source>
+      </trans-unit>
+
+      <trans-unit id="sheet.dynamic">
+        <source>Dynamic Data Provider</source>
+      </trans-unit>
+
+      <trans-unit id="sheet.dynamic.description">
+        <source>Provide data using a PHP class.</source>
+      </trans-unit>
+
+      <trans-unit id="sheet.html">
+        <source>HTML Content</source>
+      </trans-unit>
+
+      <trans-unit id="sheet.html.description">
+        <source>Add HTML content before or after the Fluid output.</source>
+      </trans-unit>
+
+      <trans-unit id="sheet.media">
+        <source>Media</source>
+      </trans-unit>
+
+      <!-- ================= Settings ================= -->
+
+      <trans-unit id="settings.addGlobalVariables">
+        <source>Expose global TYPO3 variables to Fluid</source>
+      </trans-unit>
+
+      <!-- ================= Globals ================= -->
+
+      <trans-unit id="globals.request">
+        <source>Request object ({REQUEST})</source>
+      </trans-unit>
+
+      <trans-unit id="globals.contentObject">
+        <source>Content object ({CONTENTOBJECT})</source>
+      </trans-unit>
+
+      <trans-unit id="globals.page">
+        <source>Current page record ({PAGE})</source>
+      </trans-unit>
+
+      <trans-unit id="globals.tsfe">
+        <source>Frontend controller ({TSFE})</source>
+      </trans-unit>
+
+      <trans-unit id="globals.tssetup">
+        <source>TypoScript setup ({TSSETUP})</source>
+      </trans-unit>
+
+      <!-- ================= Providers ================= -->
+
+      <trans-unit id="provider.variables">
+        <source>Variable provider</source>
+      </trans-unit>
+
+      <trans-unit id="provider.static">
+        <source>Static data provider</source>
+      </trans-unit>
+
+      <trans-unit id="provider.staticFile">
+        <source>Static data from file</source>
+      </trans-unit>
+
+      <trans-unit id="provider.staticFile.item">
+        <source>File-based data</source>
+      </trans-unit>
+
+      <trans-unit id="provider.dynamic">
+        <source>Dynamic data provider</source>
+      </trans-unit>
+
+      <trans-unit id="dynamic.php.title">
+        <source>External PHP class</source>
+      </trans-unit>
+
+      <!-- ================= Variable Types ================= -->
+
+      <trans-unit id="variables.input">
+        <source>Input</source>
+      </trans-unit>
+
+      <trans-unit id="variables.text">
+        <source>Text</source>
+      </trans-unit>
+
+      <trans-unit id="variables.link">
+        <source>Link</source>
+      </trans-unit>
+
+      <trans-unit id="variables.rte">
+        <source>Rich Text</source>
+      </trans-unit>
+
+      <!-- ================= Fields ================= -->
+
+      <trans-unit id="field.variableName">
+        <source>Variable name</source>
+      </trans-unit>
+
+      <trans-unit id="field.variableData">
+        <source>Variable data</source>
+      </trans-unit>
+
+      <trans-unit id="field.parseAsFluid">
+        <source>Parse as Fluid template</source>
+      </trans-unit>
+
+      <trans-unit id="field.isFluid">
+        <source>This value contains Fluid code</source>
+      </trans-unit>
+
+      <trans-unit id="field.dataBlob">
+        <source>Data</source>
+      </trans-unit>
+
+      <trans-unit id="field.dataBlob.description">
+        <source>Paste structured data in the selected format.</source>
+      </trans-unit>
+
+      <trans-unit id="field.format">
+        <source>Format</source>
+      </trans-unit>
+
+      <trans-unit id="field.filename">
+        <source>File path</source>
+      </trans-unit>
+
+      <trans-unit id="field.filename.description">
+        <source>Relative to TYPO3 root, e.g. fileadmin/data/data.json or EXT:myext/data/data.json</source>
+      </trans-unit>
+
+      <trans-unit id="field.providerClass">
+        <source>PHP data provider class</source>
+      </trans-unit>
+
+      <trans-unit id="field.htmlPosition">
+        <source>Position</source>
+      </trans-unit>
+
+      <trans-unit id="field.htmlContent">
+        <source>HTML content</source>
+      </trans-unit>
+
+      <trans-unit id="field.image">
+        <source>Image</source>
+      </trans-unit>
+
+      <!-- ================= HTML ================= -->
+
+      <trans-unit id="html.blocks">
+        <source>HTML blocks</source>
+      </trans-unit>
+
+      <trans-unit id="html.block">
+        <source>HTML block</source>
+      </trans-unit>
+
+      <trans-unit id="html.before">
+        <source>Before</source>
+      </trans-unit>
+
+      <trans-unit id="html.after">
+        <source>After</source>
+      </trans-unit>
+
+    </body>
+  </file>
+</xliff>

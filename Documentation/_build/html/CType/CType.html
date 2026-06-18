@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Content Elements (CType) &#8212; InlineFluid  documentation</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=b08954a9" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Backend Editing" href="../Backend/BackendEditing.html" />
+    <link rel="prev" title="Overview" href="../Overview/Overview.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section id="content-elements-ctype">
+<h1>Content Elements (CType)<a class="headerlink" href="#content-elements-ctype" title="Link to this heading">¶</a></h1>
+<p>Inlinefluid registers two custom TYPO3 content element types.
+Both elements are technically identical in structure and backend configuration,
+but differ in <strong>rendering strategy and cache behavior</strong>.</p>
+<p>The content elements are registered under the <strong>“Special”</strong> section in the
+TYPO3 content element wizard.</p>
+<p>Due to their technical nature and the ability to execute Fluid code, these
+content elements are <strong>only very limitedly suitable for editors</strong> and are
+primarily intended for developers or technically experienced users.</p>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading">¶</a></h2>
+<p>The following content element types are available:</p>
+</section>
+<section id="inlinefluid-editor">
+<h2>inlinefluid_editor<a class="headerlink" href="#inlinefluid-editor" title="Link to this heading">¶</a></h2>
+<p>This variant uses <strong>non-cached rendering</strong> via <code class="docutils literal notranslate"><span class="pre">USER_INT</span></code>.</p>
+<p>Characteristics:</p>
+<ul class="simple">
+<li><p>Rendering happens on every request</p></li>
+<li><p>Suitable for dynamic, request-based, or user-specific output</p></li>
+<li><p>Recommended for API-driven data, session-dependent logic, or frequently
+changing content</p></li>
+<li><p>Higher runtime cost compared to cached rendering</p></li>
+</ul>
+</section>
+<section id="inlinefluid-editorcached">
+<h2>inlinefluid_editorcached<a class="headerlink" href="#inlinefluid-editorcached" title="Link to this heading">¶</a></h2>
+<p>This variant uses <strong>cached rendering</strong> via <code class="docutils literal notranslate"><span class="pre">USER</span></code>.</p>
+<p>Characteristics:</p>
+<ul class="simple">
+<li><p>Output is cached according to TYPO3’s caching framework</p></li>
+<li><p>Suitable for static or semi-static content</p></li>
+<li><p>Better performance for content that does not change per request</p></li>
+<li><p>Requires deterministic rendering logic</p></li>
+</ul>
+</section>
+<section id="shared-configuration">
+<h2>Shared Configuration<a class="headerlink" href="#shared-configuration" title="Link to this heading">¶</a></h2>
+<p>Both content elements share:</p>
+<ul class="simple">
+<li><p>The same FlexForm configuration</p></li>
+<li><p>The same backend editing interface</p></li>
+<li><p>The same support for:
+- Backend Fluid editing
+- Variable Providers
+- Dynamic Data Providers
+- HTML Before / After Rendering
+- Inline ViewHelper rendering</p></li>
+</ul>
+<p>The only difference is the cacheability of the rendering.</p>
+</section>
+<section id="editorial-considerations">
+<h2>Editorial Considerations<a class="headerlink" href="#editorial-considerations" title="Link to this heading">¶</a></h2>
+<p>Inlinefluid content elements expose <strong>raw Fluid editing capabilities</strong> in the
+backend. This implies:</p>
+<ul class="simple">
+<li><p>No WYSIWYG abstraction</p></li>
+<li><p>No validation of Fluid syntax at save time</p></li>
+<li><p>Potential rendering errors caused by invalid templates</p></li>
+<li><p>Full access to the Fluid variable scope</p></li>
+</ul>
+<p>For these reasons, Inlinefluid content elements:</p>
+<ul class="simple">
+<li><p>Are <strong>not intended for standard editorial workflows</strong></p></li>
+<li><p>Should be used in controlled environments</p></li>
+<li><p>Are best suited for:
+- Developers
+- Technical power users
+- Prototyping and demo setups
+- Extension and site package development</p></li>
+</ul>
+</section>
+<section id="summary">
+<h2>Summary<a class="headerlink" href="#summary" title="Link to this heading">¶</a></h2>
+<p>Inlinefluid provides two CType variants that differ only in cache behavior.
+Both are intentionally placed under <strong>Special</strong> and should be used with care.
+They offer maximum flexibility and control at the cost of increased technical
+responsibility.</p>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../Index.html">InlineFluid</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../Overview/Overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Content Elements (CType)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inlinefluid-editor">inlinefluid_editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#inlinefluid-editorcached">inlinefluid_editorcached</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#shared-configuration">Shared Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#editorial-considerations">Editorial Considerations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../Backend/BackendEditing.html">Backend Editing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Rendering/FluidRendering.html">Rendering Fluid</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Providers/VariableProviders.html">Variable Providers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Providers/StaticDataProviders.html">Static Data Providers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Providers/DynamicDataProviders.html">Dynamic Data Providers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Providers/Settings.html">Predefined Template Variables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../HTML/Html.html">HTML Before / After Rendering</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Media/MediaIntegration.html">Media Integration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Viewhelpers/Viewhelpers.html">ViewHelper</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Debugging/Debugging.html">Debugging</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../Exceptions/Exceptions.html">Internal Exception Handling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../TargetAudience/TargetAudience.html">Target Audience</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../Index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="../Overview/Overview.html" title="previous chapter">Overview</a></li>
+      <li>Next: <a href="../Backend/BackendEditing.html" title="next chapter">Backend Editing</a></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 9.0.4</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/CType/CType.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

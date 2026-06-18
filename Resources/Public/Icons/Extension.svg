@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="256" height="256"
+     viewBox="0 0 256 256"
+     role="img"
+     aria-label="inlinefluid icon">
+    <title>inlinefluid</title>
+
+    <!-- Background tile -->
+    <rect x="16" y="16" width="224" height="224" rx="28" fill="#2B2F36"/>
+
+    <!-- Markup text -->
+    <text x="128" y="196"
+          text-anchor="middle"
+          font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace"
+          font-size="200"
+          font-weight="800"
+          fill="#FF8700">
+        f:
+    </text>
+</svg>

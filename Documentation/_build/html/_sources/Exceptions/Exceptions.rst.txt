@@ -1,0 +1,103 @@
+Internal Exception Handling
+===========================
+
+Inlinefluid provides a **lightweight internal exception handling mechanism**
+that focuses on collecting exceptions raised during **Dynamic Data Provider**
+execution.
+
+The purpose is to make provider-related issues visible during backend editing
+and preview rendering without breaking the overall Fluid rendering process.
+
+Scope of Exception Handling
+---------------------------
+
+Inlinefluid handles exceptions in a **strictly limited scope**.
+
+Handled:
+
+- Exceptions thrown by Dynamic Data Providers
+- Exceptions during provider instantiation
+- Runtime errors inside classes extending
+  ``AbstractExternalDataProvider``
+
+Not handled:
+
+- Exceptions thrown during Fluid template rendering
+- Fluid syntax errors
+- ViewHelper execution errors inside templates
+
+Exceptions originating from Fluid rendering are **not intercepted** and are
+handled by TYPO3’s default error handling.
+
+Exception Collection
+--------------------
+
+When a Dynamic Data Provider throws an exception:
+
+1. The exception is caught internally
+2. Rendering continues where possible
+3. The exception is added to an internal exception collection
+4. Rendering of the content element is not aborted
+
+This ensures that individual provider failures do not block the complete
+rendering process.
+
+Rendering Exceptions for Authenticated Users
+--------------------------------------------
+
+Collected exceptions are exposed to the Fluid rendering context via the variable
+``exceptions``.
+
+For security and clarity, exception output should only be displayed to
+**authenticated backend users**.
+
+Recommended Fluid output block:
+
+::
+
+   <f:be.security.ifAuthenticated>
+       <f:if condition="{exceptions}">
+           <div class="alert alert-danger" role="alert">
+               <ul>
+               <f:for as="e" each="{exceptions}">
+                   <li><strong>{e}</strong></li>
+               </f:for>
+               </ul>
+           </div>
+       </f:if>
+   </f:be.security.ifAuthenticated>
+
+This approach ensures:
+
+- Exception messages are visible during backend editing and preview
+- No sensitive information is exposed to frontend users
+- Multiple exceptions can be displayed in a structured way
+
+Design Rationale
+----------------
+
+The internal exception handling follows these principles:
+
+- Fail-safe provider execution
+- No silent swallowing of errors
+- Clear visibility during development
+- No interference with Fluid’s native rendering behavior
+
+Fluid rendering exceptions are treated as structural errors and must be fixed
+directly in the template.
+
+Important Notes
+---------------
+
+- Only provider-related exceptions are collected
+- Fluid rendering exceptions are **not** caught
+- Exception output must be protected by authentication checks
+- The mechanism is intended for debugging and development purposes
+
+Summary
+-------
+
+Inlinefluid collects exceptions raised by Dynamic Data Providers and exposes them
+to the Fluid context in a controlled way. Using authenticated output blocks,
+developers can inspect provider errors without affecting frontend users or
+TYPO3’s standard Fluid error handling.

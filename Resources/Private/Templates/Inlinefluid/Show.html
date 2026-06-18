@@ -1,0 +1,16 @@
+{namespace sg3w=Sg3w\Inlinefluid\ViewHelpers}
+<f:be.security.ifAuthenticated>
+    <f:if condition="{exceptions}">
+        <div class="alert alert-danger" role="alert">
+            <ul>
+            <f:for as="e" each="{exceptions}">
+                <li><strong>{e}</strong></li>
+            </f:for>
+            </ul>
+        </div>
+    </f:if>
+</f:be.security.ifAuthenticated>
+
+<f:for as="html" each="{htmlBlocks.before}">{html -> f:format.raw()}</f:for>
+{renderedContent -> f:format.raw()}
+<f:for as="html" each="{htmlBlocks.after}">{html -> f:format.raw()}</f:for>

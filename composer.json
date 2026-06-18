@@ -1,0 +1,26 @@
+{
+    "name": "sg3w/inlinefluid",
+    "version": "0.0.1",
+    "authors": [
+        {
+           "name": "Jörg Hammel",
+           "role": "Web Developer"
+        }
+    ],
+    "type": "typo3-cms-extension",
+    "description": "Inline Fluid Template for tt_content",
+    "license": "GPL-2.0-or-later",
+    "autoload": {
+        "psr-4": {
+           "Sg3w\\Inlinefluid\\": "Classes/"
+        }
+    },
+    "require": {
+
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "inlinefluid"
+        }
+    }
+}
