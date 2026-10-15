@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sg3w\Inlinefluid\Domain\Model;
 
-use Sg3w\Inlinefluid\Utility\SettingsProcessorOld;
+use TYPO3\CMS\Core\Configuration\FlexForm\FlexFormTools;
 use TYPO3\CMS\Core\Service\FlexFormService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 
 /**
  * Class SettingsProcessor
@@ -13,99 +14,116 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * Handles the flexform settings processing for Inlinefluid extension.
  *
  * @author Jörg Hammel <info@sg3w.com>
- *
  */
-class SettingsProcessor extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
+class SettingsProcessor
 {
-
-    protected $xmlArray = [];
+    /**
+     * @var array<string, mixed>
+     */
+    protected array $xmlArray = [];
 
     /**
      * sets the flexform data from pi_flexform field
      *
-     * @param string $piFlexFormData The flexform XML data
-     * @return void
+     * @param string|null $piFlexFormData The flexform XML data
      */
-    public function setPiFlexFormData($piFlexFormData): void
+    public function setPiFlexFormData(?string $piFlexFormData): void
     {
-        $flexformService = GeneralUtility::makeInstance(FlexFormService::class);
-        $this->xmlArray = $flexformService->convertFlexFormContentToArray($piFlexFormData);
+        if ($piFlexFormData === null || trim($piFlexFormData) === '') {
+            $this->xmlArray = [];
+            return;
+        }
+
+        $this->xmlArray = $this->getFlexFormConverter()->convertFlexFormContentToArray($piFlexFormData);
+    }
+
+    /**
+     * TYPO3 v14 merged FlexFormService into FlexFormTools. The old class name still
+     * works there through a class alias, but that alias will not last forever.
+     */
+    protected function getFlexFormConverter(): object
+    {
+        if (method_exists(FlexFormTools::class, 'convertFlexFormContentToArray')) {
+            return GeneralUtility::makeInstance(FlexFormTools::class);
+        }
+
+        return GeneralUtility::makeInstance(FlexFormService::class);
     }
 
     /**
      * Retrieves settings as an array based on parent and child XML tag names
      *
-     *
-     * @param string $xmlParentTagName
-     * @param array $xmlChildTagNames
-     * @return array
+     * @param string[] $xmlChildTagNames
+     * @return array<int, array<string, mixed>>
      */
-    public function getSettingArray(string $xmlParentTagName, array $xmlChildTagNames)
+    public function getSettingArray(string $xmlParentTagName, array $xmlChildTagNames): array
     {
         $settingsDataRows = [];
         if (isset($this->xmlArray[$xmlParentTagName]) && is_array($this->xmlArray[$xmlParentTagName])) {
             foreach ($this->xmlArray[$xmlParentTagName] as $settingsData) {
+                if (!is_array($settingsData)) {
+                    continue;
+                }
                 foreach ($xmlChildTagNames as $xmlChildTagName) {
-                    if (isset($settingsData[$xmlChildTagName])) {
-                        $settingsData[$xmlChildTagName]['type'] = $xmlChildTagName;
-                        $settingsDataRows[] = $settingsData[$xmlChildTagName];
+                    if (isset($settingsData[$xmlChildTagName]) && is_array($settingsData[$xmlChildTagName])) {
+                        $row = $settingsData[$xmlChildTagName];
+                        $row['type'] = $xmlChildTagName;
+                        $settingsDataRows[] = $row;
                     }
                 }
             }
         }
+
         return $settingsDataRows;
     }
-
-
 
     /**
      * Retrieves HTML settings from the flexform
      *
-     * @return array|null
+     * @return array{before?: string[], after?: string[]}|null
      */
     public function getHtmlSettings(): ?array
     {
         $htmlSettings = $this->getSettingArray('htmlelements', ['htmlelement']);
-        if (count($htmlSettings) > 0) {
-            $htmlBlock = [];
-            foreach ($htmlSettings as $key => $value) {
-                if ((int )$htmlSettings[$key]['position'] == 0) {
-                    $htmlBlock['before'][] = $htmlSettings[$key]['content'];
-                } else {
-                    $htmlBlock['after'][] = $htmlSettings[$key]['content'];
-                }
-            }
-            return $htmlBlock;
+        if ($htmlSettings === []) {
+            return null;
         }
-        return null;
+
+        $htmlBlock = [];
+        foreach ($htmlSettings as $htmlSetting) {
+            $position = (int)($htmlSetting['position'] ?? 0) === 0 ? 'before' : 'after';
+            $htmlBlock[$position][] = (string)($htmlSetting['content'] ?? '');
+        }
+
+        return $htmlBlock;
     }
 
     /**
      * Retrieves static data provider settings from the flexform
      *
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
-    public function getStaticDataProvider()
+    public function getStaticDataProvider(): array
     {
-        return $this->getSettingArray('staticdataproviders', ['json', 'xml', 'yaml','serialized','csv']);
+        return $this->getSettingArray('staticdataproviders', ['json', 'xml', 'yaml', 'serialized', 'csv']);
     }
 
     /**
-     * Retrieves static data provider settings from the flexform
+     * Retrieves dynamic data provider settings from the flexform
      *
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
-    public function getDynamicDataProvider()
+    public function getDynamicDataProvider(): array
     {
         return $this->getSettingArray('dynamicdataproviders', ['php']);
     }
 
     /**
-     * Retrieves static data provider settings from the flexform
+     * Retrieves file data provider settings from the flexform
      *
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
-    public function getFileDataProvider()
+    public function getFileDataProvider(): array
     {
         return $this->getSettingArray('filedataprovider', ['file']);
     }
@@ -113,9 +131,9 @@ class SettingsProcessor extends \TYPO3\CMS\Extbase\DomainObject\AbstractEntity
     /**
      * Retrieves variable data provider settings from the flexform
      *
-     * @return array
+     * @return array<int, array<string, mixed>>
      */
-    public function getVariableDataProvider()
+    public function getVariableDataProvider(): array
     {
         return $this->getSettingArray('variableproviders', ['rte', 'text', 'input', 'link']);
     }

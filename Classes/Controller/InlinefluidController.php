@@ -1,213 +1,311 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Sg3w\Inlinefluid\Controller;
 
 use Psr\Http\Message\ResponseInterface;
-use Sg3w\Inlinefluid\DataProvider\External\AbstractExternalDataProvider;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Fluid\View\StandaloneView;
-use TYPO3\CMS\Frontend\Configuration\TypoScript\ConditionMatching\ConditionMatcher;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3Fluid\Fluid\View\ViewInterface;
-
-use Sg3w\Inlinefluid\Domain\Model\SettingsProcessor;
 use Sg3w\Inlinefluid\DataProvider\DataProviderFactory;
-use Sg3w\Inlinefluid\DataProvider\External\AbstarctExtrnalDataProvider;
-use TYPO3\CMS\Core\TypoScript\TypoScriptService;
+use Sg3w\Inlinefluid\DataProvider\External\AbstractExternalDataProvider;
+use Sg3w\Inlinefluid\Domain\Model\SettingsProcessor;
+use Sg3w\Inlinefluid\Rendering\FluidSourceRenderer;
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Resource\FileRepository;
+use TYPO3\CMS\Core\TypoScript\TypoScriptService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
-class InlinefluidController extends \TYPO3\CMS\Extbase\Mvc\Controller\ActionController
+class InlinefluidController extends ActionController
 {
-    private $contentObject = null;
+    protected ?ContentObjectRenderer $contentObject = null;
 
     /**
-     * action show
+     * Collected problems of the single data providers, rendered for logged in
+     * backend users by the Show template.
      *
-     * @return void
+     * @var string[]
      */
+    protected array $exceptions = [];
+
+    /**
+     * The settings processor is stateful: it keeps the parsed FlexForm of the content
+     * element that is currently being rendered. It is registered as a non shared service
+     * (see Configuration/Services.yaml) and showAction() hands it a new FlexForm before
+     * reading anything from it, so re-using this controller instance for a second
+     * content element cannot mix up the two.
+     */
+    public function __construct(
+        protected readonly SettingsProcessor $settingsProcessor
+    ) {}
+
     public function showAction(): ResponseInterface
     {
-        $exceptions = [];
-        $this->contentObject = $this->request->getAttribute('currentContentObject');
+        $this->exceptions = [];
+        $this->contentObject = $this->resolveContentObject();
+
+        if ($this->contentObject === null) {
+            $this->view->assign('exceptions', [
+                'The current ContentObjectRenderer could not be determined, the content element cannot be rendered.',
+            ]);
+            return $this->htmlResponse();
+        }
+
         $this->assignDefaultViewVars();
 
+        $this->settingsProcessor->setPiFlexFormData((string)($this->contentObject->data['pi_flexform'] ?? ''));
 
-        $settingProcessor = GeneralUtility::makeInstance(SettingsProcessor::class);
-        $settingProcessor->setPiFlexFormData($this->contentObject->data['pi_flexform']);
-        $htmlBlocks = $settingProcessor->getHtmlSettings();
-        if(!is_null($htmlBlocks)){
-            $this->view->assign('htmlBlocks',$htmlBlocks );
+        $htmlBlocks = $this->settingsProcessor->getHtmlSettings();
+        if ($htmlBlocks !== null) {
+            $this->view->assign('htmlBlocks', $htmlBlocks);
         }
 
+        $this->assignVariableProviders();
+        $this->assignStaticDataProviders();
+        $this->assignFileDataProviders();
 
-        $variablesProvider = $settingProcessor->getVariableDataProvider();
-        foreach ($variablesProvider as $key => $value) {
-            $this->view->assign($value['varname'], $value['data']);
-        }
+        $renderingContext = $this->resolveRenderingContext();
 
+        $this->assignDynamicDataProviders($renderingContext);
+        $this->assignMediaImages();
 
-        $staticProvider = $settingProcessor->getStaticDataProvider();
-        foreach ($staticProvider as $key => $value) {
-            try{
-                $processor = DataProviderFactory::getStaticDataProvider($value['type']);
-                $result = $processor->renderData($value['data']);
-                $this->view->assign($value['varname'], $result);
-            }catch (\Exception $exception){
-                $exceptions[] = 'StaticDataProvider Error for variable "'.$value['varname'].'" : '.$exception->getMessage();
-            }
-        }
+        $this->view->assign('exceptions', $this->exceptions);
 
-        $fileDataProvider = $settingProcessor->getFileDataProvider();
-        foreach ($fileDataProvider as $key => $value) {
-            try{
-                $filePath = GeneralUtility::getFileAbsFileName($value['filename']);
-                if(file_exists($filePath)){
-                    $fileContent = file_get_contents($filePath);
-                }else{
-                    throw new \Exception('File not found: '.$value['filename']);
-                }
-                $processor = DataProviderFactory::getStaticDataProvider($value['format']);
-                $result = $processor->renderData($fileContent);
-
-                $this->view->assign($value['varname'], $result);
-            }catch (\Exception $exception){
-                $exceptions[] = 'FileDataProvider Error for variable "'.$value['varname'].'" : '.$exception->getMessage();
-            }
-
-        }
-        $renderingContext = $this->view->getRenderingContext();
-
-        $dynamicDataProvider = $settingProcessor->getDynamicDataProvider();
-        //debug($dynamicDataProvider);
-        foreach ($dynamicDataProvider as $key => $value) {
-            if($value['type']==='php'){
-
-                try{
-                    //$dynamicClass = GeneralUtility::makeInstance($value['providerData']);
-                    if(!class_exists($value['providerData'])){
-                        throw new \Exception('Class not found: '.$value['providerData']);
-                    }
-
-
-                    $dynamicClass = new $value['providerData']();
-                    if($dynamicClass instanceof AbstractExternalDataProvider){
-                        $dynamicClass->setRenderingContext($renderingContext);
-                       // $dynamicClass->setControllerContext($renderingContext->getControllerContext());
-                        $result = $dynamicClass->renderData('');
-                        //debug($result);
-                        $this->view->assign($value['varname'], $result);
-                    }
-                }catch (\Exception $exception){
-                    $exceptions[] = 'DynamicDataProvider Error for variable "'.$value['varname'].'" : '.$exception->getMessage();
-                  //  $exceptions[] = 'DynamicDataProvider Error for variable "'.$value['varname'].'" : '.$exception->getMessage();
-                }
-            }
-
-        }
-
-
-        $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
-        $mediaImages = $fileRepository->findByRelation('tt_content', 'mediaImage', $this->contentObject->data['uid']);
-        if(count($mediaImages) > 0){
-            $this->view->assign('mediaImages', $mediaImages);
-        }
-
-
-
-        //$image = $images[0] ?? null;
-
-
-        $this->view->assign('exceptions', $exceptions);
-
-
-
-
-        // $allVars = $renderingContext->getVariableProvider()->getAll();
-
-        // debug($allVars);
-
-        $content = $this->contentObject->data['bodytext'];
-        if(empty($content)){
-            $content = '<f:debug inline="true">{_all}</f:debug>';
-        }
-        $view = static::getClonedView($renderingContext);
-        $view->setTemplateSource($content);
-        $renderedContent = static::renderView($view);
-
-
-        $this->view->assign('renderedContent', $renderedContent);
+        $this->view->assign('renderedContent', $this->renderBodytext($renderingContext));
 
         return $this->htmlResponse();
     }
 
-    protected function assignDefaultViewVars()
+    protected function assignVariableProviders(): void
     {
-        if (isset($this->settings['addglobalvariables'])) {
-            $addglobalvariables = explode(',', $this->settings['addglobalvariables']);
-        } else {
-            // $addglobalvariables = ['TSFE','TSSETUP','PAGE','CONTENTOBJECT','REQUEST'];
-            $addglobalvariables = array();
+        foreach ($this->settingsProcessor->getVariableDataProvider() as $value) {
+            if (($value['varname'] ?? '') === '') {
+                continue;
+            }
+            $this->view->assign($value['varname'], $value['data'] ?? null);
         }
-        if (in_array('contentobject', $addglobalvariables) && $this->contentObject instanceof ContentObjectRenderer) {
+    }
+
+    protected function assignStaticDataProviders(): void
+    {
+        foreach ($this->settingsProcessor->getStaticDataProvider() as $value) {
+            try {
+                $processor = DataProviderFactory::getStaticDataProvider((string)($value['type'] ?? ''));
+                $this->view->assign($value['varname'], $processor->renderData((string)($value['data'] ?? '')));
+            } catch (\Throwable $exception) {
+                $this->exceptions[] = 'StaticDataProvider Error for variable "'
+                    . ($value['varname'] ?? '') . '" : ' . $exception->getMessage();
+            }
+        }
+    }
+
+    protected function assignFileDataProviders(): void
+    {
+        foreach ($this->settingsProcessor->getFileDataProvider() as $value) {
+            try {
+                $filePath = GeneralUtility::getFileAbsFileName((string)($value['filename'] ?? ''));
+                if ($filePath === '' || !file_exists($filePath)) {
+                    throw new \RuntimeException('File not found: ' . ($value['filename'] ?? ''), 1760000001);
+                }
+                $fileContent = (string)file_get_contents($filePath);
+                $processor = DataProviderFactory::getStaticDataProvider((string)($value['format'] ?? ''));
+                $this->view->assign($value['varname'], $processor->renderData($fileContent));
+            } catch (\Throwable $exception) {
+                $this->exceptions[] = 'FileDataProvider Error for variable "'
+                    . ($value['varname'] ?? '') . '" : ' . $exception->getMessage();
+            }
+        }
+    }
+
+    protected function assignDynamicDataProviders(?RenderingContextInterface $renderingContext): void
+    {
+        foreach ($this->settingsProcessor->getDynamicDataProvider() as $value) {
+            if (($value['type'] ?? '') !== 'php') {
+                continue;
+            }
+            $className = ltrim((string)($value['providerData'] ?? ''), '\\');
+            try {
+                if (!class_exists($className)) {
+                    throw new \RuntimeException('Class not found: ' . $className, 1760000002);
+                }
+                $dynamicClass = GeneralUtility::makeInstance($className);
+                if (!$dynamicClass instanceof AbstractExternalDataProvider) {
+                    throw new \RuntimeException(
+                        $className . ' must extend ' . AbstractExternalDataProvider::class,
+                        1760000003
+                    );
+                }
+                if ($renderingContext !== null) {
+                    $dynamicClass->setRenderingContext($renderingContext);
+                }
+                $this->view->assign($value['varname'], $dynamicClass->renderData(''));
+            } catch (\Throwable $exception) {
+                $this->exceptions[] = 'DynamicDataProvider Error for variable "'
+                    . ($value['varname'] ?? '') . '" : ' . $exception->getMessage();
+            }
+        }
+    }
+
+    protected function assignMediaImages(): void
+    {
+        try {
+            $fileRepository = GeneralUtility::makeInstance(FileRepository::class);
+            $mediaImages = $fileRepository->findByRelation(
+                'tt_content',
+                'mediaImage',
+                (int)($this->contentObject->data['uid'] ?? 0)
+            );
+            if ($mediaImages !== []) {
+                $this->view->assign('mediaImages', $mediaImages);
+            }
+        } catch (\Throwable $exception) {
+            $this->exceptions[] = 'Media Error : ' . $exception->getMessage();
+        }
+    }
+
+    /**
+     * Renders the bodytext of the content element as Fluid template.
+     */
+    protected function renderBodytext(?RenderingContextInterface $renderingContext): string
+    {
+        if ($renderingContext === null) {
+            $this->exceptions[] = 'The Fluid rendering context is not available, the bodytext was not rendered.';
+            return '';
+        }
+
+        $content = (string)($this->contentObject->data['bodytext'] ?? '');
+        if (trim($content) === '') {
+            $content = '<f:debug inline="true">{_all}</f:debug>';
+        }
+
+        return FluidSourceRenderer::renderGraceful($renderingContext, $content);
+    }
+
+    protected function assignDefaultViewVars(): void
+    {
+        $addGlobalVariables = GeneralUtility::trimExplode(
+            ',',
+            (string)($this->settings['addglobalvariables'] ?? ''),
+            true
+        );
+        if ($addGlobalVariables === []) {
+            return;
+        }
+
+        if (in_array('contentobject', $addGlobalVariables, true)) {
             $this->view->assign('CONTENTOBJECT', $this->contentObject->data);
         }
-        if (in_array('tsfe', $addglobalvariables)) {
-            /** @var TypoScriptFrontendController $frontendController */
-            $frontendController = $this->request->getAttribute('frontend.controller');
-            $this->view->assign('TSFE', $frontendController);
+
+        if (in_array('tsfe', $addGlobalVariables, true)) {
+            $frontendController = $this->resolveFrontendController();
+            if ($frontendController !== null) {
+                $this->view->assign('TSFE', $frontendController);
+            } else {
+                $this->exceptions[] = 'The "TSFE" variable is not available: TypoScriptFrontendController '
+                    . 'was removed in TYPO3 v14. Use "page", "contentobject" or "tssetup" instead.';
+            }
         }
-        if (in_array('tssetup', $addglobalvariables)) {
-            $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
-            $typoScriptSettings = $typoScriptService->convertTypoScriptArrayToPlainArray($GLOBALS['TSFE']->tmpl->setup);
-            $this->view->assign('TSSETUP', $typoScriptSettings);
+
+        if (in_array('tssetup', $addGlobalVariables, true)) {
+            $typoScriptSetup = $this->resolveTypoScriptSetup();
+            if ($typoScriptSetup !== null) {
+                $this->view->assign('TSSETUP', $typoScriptSetup);
+            } else {
+                $this->exceptions[] = 'The "TSSETUP" variable is not available: the TypoScript setup '
+                    . 'could not be resolved in the current rendering context.';
+            }
         }
-        if (in_array('page', $addglobalvariables)) {
-            $pageRepository = $typoScriptService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Domain\Repository\PageRepository::class);
-            $page = $pageRepository->getPage($this->contentObject->data['pid']);
-            $this->view->assign('PAGE', $page);
+
+        if (in_array('page', $addGlobalVariables, true)) {
+            $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
+            $this->view->assign('PAGE', $pageRepository->getPage((int)($this->contentObject->data['pid'] ?? 0)));
         }
-        if (in_array('request', $addglobalvariables)) {
+
+        if (in_array('request', $addGlobalVariables, true)) {
             $this->view->assign('REQUEST', $this->request->getQueryParams());
         }
     }
 
-    protected static function getClonedView(RenderingContextInterface $renderingContext): StandaloneView
+    /**
+     * The ContentObjectRenderer of the current tt_content record.
+     *
+     * Since v12 it travels with the request, on v11 it is only known to the
+     * Extbase ConfigurationManager.
+     */
+    protected function resolveContentObject(): ?ContentObjectRenderer
     {
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
-        $newRenderingContext = $view->getRenderingContext();
-        if (method_exists($renderingContext, 'getControllerContext')) {
-            $controllerContext = clone $renderingContext->getControllerContext();
-
-            $view->setFormat($controllerContext->getRequest()->getFormat());
-            $newRenderingContext->setViewHelperVariableContainer(
-                $renderingContext->getViewHelperVariableContainer()
-            );
-            if (method_exists($newRenderingContext, 'setControllerContext')) {
-                $newRenderingContext->setControllerContext($controllerContext);
-            }
-        } elseif (method_exists($renderingContext, 'getRequest') && method_exists($newRenderingContext, 'setRequest')) {
-            $newRenderingContext->setRequest($renderingContext->getRequest());
+        $contentObject = $this->request->getAttribute('currentContentObject');
+        if ($contentObject instanceof ContentObjectRenderer) {
+            return $contentObject;
         }
-        $variables = (array)$renderingContext->getVariableProvider()->getAll();
-        $view->assignMultiple($variables);
-        return $view;
-    }
 
+        // TYPO3 v11 and v12
+        if (method_exists($this->configurationManager, 'getContentObject')) {
+            $contentObject = $this->configurationManager->getContentObject();
+            if ($contentObject instanceof ContentObjectRenderer) {
+                return $contentObject;
+            }
+        }
+
+        return null;
+    }
 
     /**
-     * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface|ViewInterface $view
+     * The TypoScriptFrontendController, which does not exist anymore on TYPO3 v14.
      */
-    protected static function renderView($view): string
+    protected function resolveFrontendController(): ?object
     {
-        try {
-            $content = $view->render();
-        } catch (\Exception $error) {
-            $content = $error->getMessage() . ' (' . $error->getCode() . ')';
+        if (!class_exists(\TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController::class)) {
+            return null;
         }
-        return $content;
+
+        // TYPO3 v12 and v13
+        $frontendController = $this->request->getAttribute('frontend.controller');
+        if (is_object($frontendController)) {
+            return $frontendController;
+        }
+
+        // TYPO3 v11
+        return is_object($GLOBALS['TSFE'] ?? null) ? $GLOBALS['TSFE'] : null;
     }
 
+    /**
+     * The full TypoScript setup as plain (dot free) array.
+     *
+     * @return array<string, mixed>|null
+     */
+    protected function resolveTypoScriptSetup(): ?array
+    {
+        $setup = null;
 
+        // TYPO3 v12+
+        $frontendTypoScript = $this->request->getAttribute('frontend.typoscript');
+        if (is_object($frontendTypoScript)
+            && method_exists($frontendTypoScript, 'hasSetup')
+            && $frontendTypoScript->hasSetup()
+        ) {
+            $setup = $frontendTypoScript->getSetupArray();
+        } elseif (isset($GLOBALS['TSFE']->tmpl->setup) && is_array($GLOBALS['TSFE']->tmpl->setup)) {
+            // TYPO3 v11
+            $setup = $GLOBALS['TSFE']->tmpl->setup;
+        }
+
+        if (!is_array($setup)) {
+            return null;
+        }
+
+        return GeneralUtility::makeInstance(TypoScriptService::class)
+            ->convertTypoScriptArrayToPlainArray($setup);
+    }
+
+    protected function resolveRenderingContext(): ?RenderingContextInterface
+    {
+        if (!method_exists($this->view, 'getRenderingContext')) {
+            return null;
+        }
+        $renderingContext = $this->view->getRenderingContext();
+
+        return $renderingContext instanceof RenderingContextInterface ? $renderingContext : null;
+    }
 }

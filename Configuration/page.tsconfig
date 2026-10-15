@@ -17,6 +17,6 @@ mod.wizards.newContentElement.wizardItems.special {
             }
         }
     }
-    # show am besten explizit:
+    # show all elements of the "special" group, including the two above
     show = *
 }

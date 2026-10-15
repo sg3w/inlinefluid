@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Sg3w\Inlinefluid\ViewHelpers;
 
 /*
@@ -7,9 +10,6 @@ namespace Sg3w\Inlinefluid\ViewHelpers;
  * For the full copyright and license information, please read the
  * LICENSE.md file that was distributed with this source code.
  */
-
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
-use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithContentArgumentAndRenderStatic;
 
 /**
  * ### Render: Inline
@@ -25,10 +25,8 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\Traits\CompileWithContentArgumentAndRenderS
  */
 class InlineViewHelper extends AbstractRenderViewHelper
 {
-    use CompileWithContentArgumentAndRenderStatic;
-
     /**
-     * @var boolean
+     * @var bool
      */
     protected $escapeChildren = false;
 
@@ -46,21 +44,27 @@ class InlineViewHelper extends AbstractRenderViewHelper
     }
 
     /**
-     * @return string
+     * Makes {someFluidString -> sg3w:inline()} use the "content" argument.
      */
-    public static function renderStatic(
-        array $arguments,
-        \Closure $renderChildrenClosure,
-        RenderingContextInterface $renderingContext
-    ) {
-        $content = $renderChildrenClosure();
-        $namespaces = static::getPreparedNamespaces($arguments);
+    public function getContentArgumentName(): ?string
+    {
+        return 'content';
+    }
+
+    public function render(): string
+    {
+        $content = $this->arguments['content'] ?? null;
+        if ($content === null) {
+            $content = $this->renderChildren();
+        }
+        $content = (string)$content;
+
+        $namespaces = static::getPreparedNamespaces($this->arguments);
         $namespaceHeader = implode(LF, $namespaces);
         foreach ($namespaces as $namespace) {
             $content = str_replace($namespace, '', $content);
         }
-        $view = static::getPreparedClonedView($renderingContext);
-        $view->setTemplateSource($namespaceHeader . $content);
-        return static::renderView($view, $arguments);
+
+        return $this->renderFluidSource($namespaceHeader . $content);
     }
 }

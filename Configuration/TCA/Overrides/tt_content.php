@@ -1,9 +1,31 @@
 <?php
 
-use \TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+declare(strict_types=1);
 
-call_user_func(function () {
+use Sg3w\Inlinefluid\Compatibility\CodeEditor;
+use Sg3w\Inlinefluid\Compatibility\CoreVersion;
+use Sg3w\Inlinefluid\Configuration\FlexFormDataStructure;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
+defined('TYPO3') || defined('TYPO3_MODE') || die();
+
+(static function (): void {
+    $iconIdentifier = 'extensions-inlinefluid-editor';
+    $cTypes = [
+        'inlinefluid_editor' => 'Inlinefluid Editor',
+        'inlinefluid_editorcached' => 'Inlinefluid Editor (cached)',
+    ];
+
+    // The "Fluid" field: a code editor where available, a plain textarea otherwise.
+    $bodytextConfig = [
+        'wrap' => 'off',
+    ];
+    $codeEditorRenderType = CodeEditor::renderType();
+    if ($codeEditorRenderType !== null) {
+        $bodytextConfig['renderType'] = $codeEditorRenderType;
+        $bodytextConfig['format'] = 'html';
+    }
 
     $typesConfig = [
         'showitem' => '
@@ -24,62 +46,42 @@ call_user_func(function () {
             rowDescription,
         --div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:extended,
     ',
-        'columnsOverrides' => []
-    ];
-
-
-    $typesConfig['columnsOverrides'] = [
-        'bodytext' => [
-            'label' => 'Fluid',
-            'config' => [
-                'renderType' => 't3editor',
-                'wrap' => 'off',
-                'format' => 'html',
+        'columnsOverrides' => [
+            'bodytext' => [
+                'label' => 'Fluid',
+                'config' => $bodytextConfig,
             ],
         ],
     ];
-    //}
 
-
-    \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['tt_content'], [
+    ArrayUtility::mergeRecursiveWithOverrule($GLOBALS['TCA']['tt_content'], [
         'ctrl' => [
             // Add type icon class
-            'typeicon_classes' => [
-                'inlinefluid_editor' => 'extensions-inlinefluid-editor',
-                'inlinefluid_editorcached' => 'extensions-inlinefluid-editor',
-            ],
+            'typeicon_classes' => array_fill_keys(array_keys($cTypes), $iconIdentifier),
         ],
-        'types' => [
-            'inlinefluid_editor' => $typesConfig,
-            'inlinefluid_editorcached' => $typesConfig,
-        ],
+        'types' => array_fill_keys(array_keys($cTypes), $typesConfig),
     ]);
 
+    $dataStructure = FlexFormDataStructure::get();
 
-
-
-    $flexFile = 'FILE:EXT:inlinefluid/Configuration/FlexForms/InlinefluidEditor.xml';
-    foreach (['inlinefluid_editor' => 'Inlinefluid Editor', 'inlinefluid_editorcached' => 'Inlinefluid Editor (cached)'] as $ctype => $label) {
-
-
+    foreach ($cTypes as $cType => $label) {
         ExtensionManagementUtility::addTcaSelectItem(
             'tt_content',
             'CType',
-            [
-                $label,
-                $ctype,
-                'extensions-inlinefluid-editor'
-            ],
+            CoreVersion::isAtLeast(12)
+                ? ['label' => $label, 'value' => $cType, 'icon' => $iconIdentifier]
+                : [$label, $cType, $iconIdentifier],
             'html',
             'after'
         );
 
-
-        ExtensionManagementUtility::addPiFlexFormValue(
-            '*',
-            'FILE:EXT:inlinefluid/Configuration/FlexForms/flexform_inlinefluid.xml',
-            $ctype
-        );
-
+        if (CoreVersion::isAtLeast(14)) {
+            // addPiFlexFormValue() is deprecated since v14, the data structure goes
+            // straight into the columnsOverrides of the content type.
+            $GLOBALS['TCA']['tt_content']['types'][$cType]['columnsOverrides']['pi_flexform']['config']['ds']
+                = $dataStructure;
+        } else {
+            ExtensionManagementUtility::addPiFlexFormValue('*', $dataStructure, $cType);
+        }
     }
-});
+})();

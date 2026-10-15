@@ -1,12 +1,15 @@
 <?php
-namespace  Sg3w\Inlinefluid\DataProvider;
 
-use Symfony\Component\Yaml;
+declare(strict_types=1);
+
+namespace Sg3w\Inlinefluid\DataProvider;
+
+use Symfony\Component\Yaml\Yaml;
+
 class YamlDataProvider implements DataProviderInterface
 {
-    public function renderData(string $dataString) :mixed
+    public function renderData(string $dataString): mixed
     {
-        $yaml = new Yaml\Yaml();
-        return $yaml->parse($dataString);
+        return Yaml::parse($dataString);
     }
 }

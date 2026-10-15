@@ -6,3 +6,8 @@ services:
 
   Sg3w\Inlinefluid\:
     resource: '../Classes/*'
+
+  # Holds the parsed FlexForm of one content element, so every consumer has to get its
+  # own instance instead of the shared default.
+  Sg3w\Inlinefluid\Domain\Model\SettingsProcessor:
+    shared: false

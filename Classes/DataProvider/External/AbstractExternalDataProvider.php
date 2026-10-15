@@ -1,27 +1,28 @@
 <?php
-namespace  Sg3w\Inlinefluid\DataProvider\External;
+
+declare(strict_types=1);
+
+namespace Sg3w\Inlinefluid\DataProvider\External;
 
 use Sg3w\Inlinefluid\DataProvider\DataProviderInterface;
-use Exception;
+use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
 
 abstract class AbstractExternalDataProvider implements DataProviderInterface
 {
-    protected $controllerContext;
+    protected ?RenderingContextInterface $renderingContext = null;
 
-    protected $renderingContext;
-
-    public function setRenderingContext($renderingContext)
+    public function setRenderingContext(RenderingContextInterface $renderingContext): void
     {
         $this->renderingContext = $renderingContext;
     }
 
-    public function setControllerContext($controllerContext)
+    public function getRenderingContext(): ?RenderingContextInterface
     {
-        $this->controllerContext = $controllerContext;
+        return $this->renderingContext;
     }
 
-    public function renderData(string $dataString) :mixed
+    public function renderData(string $dataString): mixed
     {
-        throw new Exception('Not implemented', 1665064863);
+        throw new \RuntimeException('Not implemented', 1665064863);
     }
 }

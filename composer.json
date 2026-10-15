@@ -1,22 +1,30 @@
 {
     "name": "sg3w/inlinefluid",
-    "version": "0.0.1",
+    "type": "typo3-cms-extension",
+    "description": "Write Fluid templates directly in a TYPO3 content element and render them in the frontend — with custom variables, JSON/YAML/XML/CSV data providers and FAL media, cached or uncached",
+    "license": "GPL-2.0-or-later",
+    "version": "0.2.0",
     "authors": [
         {
-           "name": "Jörg Hammel",
-           "role": "Web Developer"
+            "name": "Jörg Hammel",
+            "email": "info@sg3w.com",
+            "role": "Web Developer"
         }
     ],
-    "type": "typo3-cms-extension",
-    "description": "Inline Fluid Template for tt_content",
-    "license": "GPL-2.0-or-later",
+    "require": {
+        "php": "^8.1",
+        "typo3/cms-core": "^11.5 || ^12.4 || ^13.4 || ^14.0",
+        "typo3/cms-extbase": "^11.5 || ^12.4 || ^13.4 || ^14.0",
+        "typo3/cms-fluid": "^11.5 || ^12.4 || ^13.4 || ^14.0",
+        "typo3/cms-frontend": "^11.5 || ^12.4 || ^13.4 || ^14.0"
+    },
+    "suggest": {
+        "typo3/cms-t3editor": "Syntax highlighting for the Fluid and data fields on TYPO3 v11 and v12 (on v13+ the code editor is part of the backend)"
+    },
     "autoload": {
         "psr-4": {
-           "Sg3w\\Inlinefluid\\": "Classes/"
+            "Sg3w\\Inlinefluid\\": "Classes/"
         }
-    },
-    "require": {
-
     },
     "extra": {
         "typo3/cms": {

@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace Sg3w\Inlinefluid\ViewHelpers;
 
 /*
@@ -8,35 +11,25 @@ namespace Sg3w\Inlinefluid\ViewHelpers;
  * LICENSE.md file that was distributed with this source code.
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Extbase\Configuration\ConfigurationManagerInterface;
-use TYPO3\CMS\Fluid\View\StandaloneView;
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+use Sg3w\Inlinefluid\Rendering\FluidSourceRenderer;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractViewHelper;
-use TYPO3Fluid\Fluid\View\ViewInterface;
 
 /**
  * ### Base class for all rendering ViewHelpers.
  *
  * If errors occur they can be graciously ignored and
  * replaced by a small error message or the error itself.
+ *
+ * The rendering is implemented in render() instead of renderStatic(): the
+ * CompileWithContentArgumentAndRenderStatic trait was dropped with Fluid 5
+ * (TYPO3 v14), while render() works on Fluid 2, 4 and 5 alike.
  */
 abstract class AbstractRenderViewHelper extends AbstractViewHelper
 {
     /**
-     * @var ConfigurationManagerInterface
-     */
-    protected $configurationManager;
-
-    /**
-     * @var boolean
+     * @var bool
      */
     protected $escapeOutput = false;
-
-    public function injectConfigurationManager(ConfigurationManagerInterface $configurationManager): void
-    {
-        $this->configurationManager = $configurationManager;
-    }
 
     public function initializeArguments(): void
     {
@@ -55,58 +48,37 @@ abstract class AbstractRenderViewHelper extends AbstractViewHelper
         );
     }
 
+    /**
+     * @param array<string, mixed> $arguments
+     * @return string[]
+     */
     protected static function getPreparedNamespaces(array $arguments): array
     {
         $namespaces = [];
-        foreach ((array) $arguments['namespaces'] as $namespaceIdentifier => $namespace) {
-            $addedOverriddenNamespace = '{namespace ' . $namespaceIdentifier . '=' . $namespace . '}';
-            $namespaces[] = $addedOverriddenNamespace;
+        foreach ((array)($arguments['namespaces'] ?? []) as $namespaceIdentifier => $namespace) {
+            $namespaces[] = '{namespace ' . $namespaceIdentifier . '=' . $namespace . '}';
         }
+
         return $namespaces;
     }
 
-    protected static function getPreparedClonedView(RenderingContextInterface $renderingContext): StandaloneView
-    {
-        $view = static::getPreparedView();
-        $newRenderingContext = $view->getRenderingContext();
-        if (method_exists($renderingContext, 'getControllerContext')) {
-            $controllerContext = clone $renderingContext->getControllerContext();
-
-            $view->setFormat($controllerContext->getRequest()->getFormat());
-            $newRenderingContext->setViewHelperVariableContainer(
-                $renderingContext->getViewHelperVariableContainer()
-            );
-            if (method_exists($newRenderingContext, 'setControllerContext')) {
-                $newRenderingContext->setControllerContext($controllerContext);
-            }
-        } elseif (method_exists($renderingContext, 'getRequest') && method_exists($newRenderingContext, 'setRequest')) {
-            $newRenderingContext->setRequest($renderingContext->getRequest());
-        }
-        $variables = (array) $renderingContext->getVariableProvider()->getAll();
-        $view->assignMultiple($variables);
-        return $view;
-    }
-
     /**
-     * @param \TYPO3\CMS\Extbase\Mvc\View\ViewInterface|ViewInterface $view
+     * Renders the given Fluid source within the current rendering context,
+     * honouring the "graceful" and "onError" arguments.
      */
-    protected static function renderView($view, array $arguments): string
+    protected function renderFluidSource(string $templateSource): string
     {
         try {
-            $content = $view->render();
-        } catch (\Exception $error) {
-            if (!($arguments['graceful'] ?? false)) {
+            return FluidSourceRenderer::render($this->renderingContext, $templateSource);
+        } catch (\Throwable $error) {
+            if (!($this->arguments['graceful'] ?? false)) {
                 throw $error;
             }
-            $content = $error->getMessage() . ' (' . $error->getCode() . ')';
-        }
-        return $content;
-    }
+            $onError = $this->arguments['onError'] ?? null;
 
-    protected static function getPreparedView(): StandaloneView
-    {
-        /** @var StandaloneView $view */
-        $view = GeneralUtility::makeInstance(StandaloneView::class);
-        return $view;
+            return $onError !== null
+                ? (string)$onError
+                : $error->getMessage() . ' (' . $error->getCode() . ')';
+        }
     }
 }

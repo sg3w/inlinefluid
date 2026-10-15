@@ -25,9 +25,23 @@ Inlinefluid is a TYPO3 extension that allows editors and integrators to enter an
 
 ## Requirements
 
-- TYPO3 12 LTS
+- TYPO3 11.5 LTS, 12.4 LTS, 13.4 LTS or 14
 - PHP 8.1 or higher
 - Composer
+
+### Version specific notes
+
+| | TYPO3 11.5 | TYPO3 12.4 | TYPO3 13.4 | TYPO3 14 |
+|---|---|---|---|---|
+| Syntax highlighting of the code fields | EXT:t3editor (install `typo3/cms-t3editor`, otherwise plain textareas are used) | EXT:t3editor (same) | part of the backend | part of the backend |
+| `{TSFE}` predefined variable | available | available | available | not available — `TypoScriptFrontendController` was removed from the core. `{PAGE}`, `{CONTENTOBJECT}` and `{TSSETUP}` cover the usual cases, and the content element reports the unavailability to logged in backend users. |
+| Image field in the Media tab | TCA `inline` on `sys_file_reference` | TCA `file` | TCA `file` | TCA `file` |
+| Link variable | `input` with `inputLink` | TCA `link` | TCA `link` | TCA `link` |
+
+The content elements render raw markup: the rendering definition registered by Extbase
+(`tt_content.<ctype> =< lib.contentElement`) is replaced by a plain `USER_INT` / `USER`
+object, so EXT:fluid_styled_content is not required and nothing is wrapped around the
+template output.
 
 ---
 
@@ -144,6 +158,42 @@ The extension ships example data files in `EXT:inlinefluid/Demo/`:
 | `tabs.xml` | XML | Bootstrap Tab Panel |
 | `employees.csv` | CSV | HTML table |
 | `os-tree.yaml` | YAML | OS family tree (5 levels) |
+
+---
+
+## FlexForm data structures
+
+The backend form of both content elements is defined by two static data structures in
+`Configuration/FlexForms/`:
+
+| File | Used by | Shape |
+|---|---|---|
+| `inlinefluid.xml` | TYPO3 13, 14 | `type=link`, `type=file`, `required=1`, associative select items, `codeEditor` |
+| `inlinefluid_v11_v12.xml` | TYPO3 11, 12 | `<TCEforms>` wrapper, `eval=required`, `inputLink`, inline FAL, numeric select items, `t3editor` |
+
+TYPO3 11 reads the legacy shape natively. TYPO3 12 runs the full `TcaMigration` over every
+FlexForm data structure and still ships `t3editor`, so it shares the same file. TYPO3 13
+dropped both `<TCEforms>` support and `t3editor`, which is why 13 and 14 need their own file.
+The legacy file can be deleted together with v11/v12 support.
+
+**Both files are generated — do not edit them by hand.** They come from a single definition
+so that they cannot drift apart:
+
+```bash
+php Build/GenerateFlexForms.php
+```
+
+To verify in CI that the committed files match the generator (exit code 1 when they do not):
+
+```bash
+php Build/GenerateFlexForms.php --check
+```
+
+The structures are registered as `FILE:EXT:inlinefluid/Configuration/FlexForms/<file>`
+references, so an integrator can point the `ds` of a content type at a modified copy.
+There is one exception: on TYPO3 11/12 *without* EXT:t3editor the extension loads the legacy
+file, removes the `t3editor` render type and registers the structure inline, so the code
+fields degrade to plain textareas instead of an "unknown render type" warning.
 
 ---
 

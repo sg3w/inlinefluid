@@ -1,27 +1,28 @@
 <?php
-namespace  Sg3w\Inlinefluid\DataProvider\External;
 
-use Sg3w\Inlinefluid\DataProvider\External\AbstractExtrnalDataProvider;
+declare(strict_types=1);
 
-use TYPO3Fluid\Fluid\Core\Rendering\RenderingContextInterface;
+namespace Sg3w\Inlinefluid\DataProvider\External;
+
+/**
+ * Demonstrates how a dynamic data provider can read the variables that are
+ * already assigned to the view - for example variables coming from the
+ * "Variables" sheet of the content element.
+ */
 class ContextDemoDataProvider extends AbstractExternalDataProvider
 {
-    public function renderData(string $dataString) :mixed
+    public function renderData(string $dataString): mixed
     {
-
-
-        /**
-         * Accessing variables from the rendering context
-         */
-
-        /** @var RenderingContextInterface $renderingContext */
-        $variableProvider = $this->renderingContext->getVariableProvider();
-
-
-        if ($variableProvider->exists('myVar')) {
-            $value = $variableProvider->get('myVar');
-            debug($value);
+        if ($this->renderingContext === null) {
+            return 'ContextDemoDataProvider has no rendering context.';
         }
-        return 'content of myVar rendered by ContextDemoDataProvider is : ' . $value;
+
+        $variableProvider = $this->renderingContext->getVariableProvider();
+        if (!$variableProvider->exists('myVar')) {
+            return 'ContextDemoDataProvider found no variable "myVar".';
+        }
+
+        return 'content of myVar rendered by ContextDemoDataProvider is : '
+            . var_export($variableProvider->get('myVar'), true);
     }
 }

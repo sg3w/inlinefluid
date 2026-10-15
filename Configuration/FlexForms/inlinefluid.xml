@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<!--
+    DO NOT EDIT - this file is generated.
+
+    Target:     TYPO3 v13, v14
+    Source:     Build/GenerateFlexForms.php
+    Regenerate: php Build/GenerateFlexForms.php
+-->
+<T3DataStructure>
+    <sheets type="array">
+        <sDEF type="array">
+            <ROOT type="array">
+                <sheetTitle>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.settings</sheetTitle>
+                <type>array</type>
+                <el type="array">
+                    <settings.addglobalvariables type="array">
+                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:settings.addGlobalVariables</label>
+                        <config type="array">
+                            <type>select</type>
+                            <renderType>selectCheckBox</renderType>
+                            <items type="array">
+                                <numIndex index="0" type="array">
+                                    <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:globals.request</label>
+                                    <value>request</value>
+                                </numIndex>
+                                <numIndex index="1" type="array">
+                                    <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:globals.contentObject</label>
+                                    <value>contentobject</value>
+                                </numIndex>
+                                <numIndex index="2" type="array">
+                                    <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:globals.page</label>
+                                    <value>page</value>
+                                </numIndex>
+                                <numIndex index="3" type="array">
+                                    <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:globals.tsfe</label>
+                                    <value>tsfe</value>
+                                </numIndex>
+                                <numIndex index="4" type="array">
+                                    <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:globals.tssetup</label>
+                                    <value>tssetup</value>
+                                </numIndex>
+                            </items>
+                            <cols>3</cols>
+                        </config>
+                    </settings.addglobalvariables>
+                </el>
+            </ROOT>
+        </sDEF>
+        <sheet.variables type="array">
+            <ROOT type="array">
+                <sheetTitle>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.variables</sheetTitle>
+                <sheetDescription>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.variables.description</sheetDescription>
+                <type>array</type>
+                <el type="array">
+                    <variableproviders type="array">
+                        <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:provider.variables</title>
+                        <type>array</type>
+                        <section>1</section>
+                        <el type="array">
+                            <input type="array">
+                                <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:variables.input</title>
+                                <type>array</type>
+                                <el type="array">
+                                    <varname type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                        <config type="array">
+                                            <type>input</type>
+                                            <size>100</size>
+                                            <eval>trim</eval>
+                                            <required>1</required>
+                                        </config>
+                                    </varname>
+                                    <data type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableData</label>
+                                        <config type="array">
+                                            <type>input</type>
+                                            <size>255</size>
+                                            <eval>trim</eval>
+                                            <required>1</required>
+                                        </config>
+                                    </data>
+                                </el>
+                            </input>
+                            <text type="array">
+                                <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:variables.text</title>
+                                <type>array</type>
+                                <el type="array">
+                                    <varname type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                        <config type="array">
+                                            <type>input</type>
+                                            <size>100</size>
+                                            <eval>trim</eval>
+                                            <required>1</required>
+                                        </config>
+                                    </varname>
+                                    <data type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableData</label>
+                                        <config type="array">
+                                            <type>text</type>
+                                            <cols>50</cols>
+                                            <rows>10</rows>
+                                            <eval>trim</eval>
+                                            <required>1</required>
+                                        </config>
+                                    </data>
+                                </el>
+                            </text>
+                            <link type="array">
+                                <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:variables.link</title>
+                                <type>array</type>
+                                <el type="array">
+                                    <varname type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                        <config type="array">
+                                            <type>input</type>
+                                            <size>100</size>
+                                            <eval>trim</eval>
+                                            <required>1</required>
+                                        </config>
+                                    </varname>
+                                    <data type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableData</label>
+                                        <config type="array">
+                                            <type>link</type>
+                                            <size>100</size>
+                                            <required>1</required>
+                                        </config>
+                                    </data>
+                                </el>
+                            </link>
+                            <rte type="array">
+                                <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:variables.rte</title>
+                                <type>array</type>
+                                <el type="array">
+                                    <varname type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                        <config type="array">
+                                            <type>input</type>
+                                            <size>255</size>
+                                            <eval>trim</eval>
+                                            <required>1</required>
+                                        </config>
+                                    </varname>
+                                    <data type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableData</label>
+                                        <config type="array">
+                                            <type>text</type>
+                                            <cols>100</cols>
+                                            <rows>5</rows>
+                                            <eval>trim</eval>
+                                            <enableRichtext>1</enableRichtext>
+                                            <required>1</required>
+                                        </config>
+                                    </data>
+                                </el>
+                            </rte>
+                        </el>
+                    </variableproviders>
+                </el>
+            </ROOT>
+        </sheet.variables>
+        <media type="array">
+            <ROOT type="array">
+                <sheetTitle>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.media</sheetTitle>
+                <type>array</type>
+                <el type="array">
+                    <mediaImage type="array">
+                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.image</label>
+                        <config type="array">
+                            <type>file</type>
+                            <allowed>jpg,jpeg,png,webp,svg</allowed>
+                            <appearance type="array">
+                                <useSortable>1</useSortable>
+                                <enabledControls type="array">
+                                    <new>0</new>
+                                    <dragdrop>1</dragdrop>
+                                    <sort>1</sort>
+                                    <hide>1</hide>
+                                    <delete>1</delete>
+                                </enabledControls>
+                            </appearance>
+                            <minitems>0</minitems>
+                            <maxitems>20</maxitems>
+                        </config>
+                    </mediaImage>
+                </el>
+            </ROOT>
+        </media>
+        <sheet.data type="array">
+            <ROOT type="array">
+                <sheetTitle>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.data</sheetTitle>
+                <sheetDescription>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.data.description</sheetDescription>
+                <type>array</type>
+                <el type="array">
+                    <staticdataproviders type="array">
+                        <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:provider.static</title>
+                        <type>array</type>
+                        <section>1</section>
+                        <el type="array">
+                            <json type="array">
+                                <title>JSON</title>
+                                <type>array</type>
+                                <el type="array">
+                                    <varname type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                        <config type="array">
+                                            <type>input</type>
+                                            <size>255</size>
+                                            <eval>trim</eval>
+                                        </config>
+                                    </varname>
+                                    <data type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob</label>
+                                        <description>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob.description</description>
+                                        <config type="array">
+                                            <type>text</type>
+                                            <cols>100</cols>
+                                            <rows>10</rows>
+                                            <wrap>off</wrap>
+                                            <renderType>codeEditor</renderType>
+                                            <format>json</format>
+                                        </config>
+                                    </data>
+                                </el>
+                            </json>
+                            <yaml type="array">
+                                <title>YAML</title>
+                                <type>array</type>
+                                <el type="array">
+                                    <varname type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                        <config type="array">
+                                            <type>input</type>
+                                            <size>255</size>
+                                            <eval>trim</eval>
+                                        </config>
+                                    </varname>
+                                    <data type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob</label>
+                                        <description>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob.description</description>
+                                        <config type="array">
+                                            <type>text</type>
+                                            <cols>100</cols>
+                                            <rows>10</rows>
+                                            <wrap>off</wrap>
+                                            <renderType>codeEditor</renderType>
+                                            <format>javascript</format>
+                                        </config>
+                                    </data>
+                                </el>
+                            </yaml>
+                            <xml type="array">
+                                <title>XML</title>
+                                <type>array</type>
+                                <el type="array">
+                                    <varname type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                        <config type="array">
+                                            <type>input</type>
+                                            <size>255</size>
+                                            <eval>trim</eval>
+                                        </config>
+                                    </varname>
+                                    <data type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob</label>
+                                        <description>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob.description</description>
+                                        <config type="array">
+                                            <type>text</type>
+                                            <cols>100</cols>
+                                            <rows>10</rows>
+                                            <wrap>off</wrap>
+                                            <renderType>codeEditor</renderType>
+                                            <format>xml</format>
+                                        </config>
+                                    </data>
+                                </el>
+                            </xml>
+                            <csv type="array">
+                                <title>CSV</title>
+                                <type>array</type>
+                                <el type="array">
+                                    <varname type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                        <config type="array">
+                                            <type>input</type>
+                                            <size>255</size>
+                                            <eval>trim</eval>
+                                        </config>
+                                    </varname>
+                                    <data type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob</label>
+                                        <description>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob.description</description>
+                                        <config type="array">
+                                            <type>text</type>
+                                            <cols>100</cols>
+                                            <rows>10</rows>
+                                            <wrap>off</wrap>
+                                            <renderType>codeEditor</renderType>
+                                            <format>javascript</format>
+                                        </config>
+                                    </data>
+                                </el>
+                            </csv>
+                            <serialized type="array">
+                                <title>Serialized</title>
+                                <type>array</type>
+                                <el type="array">
+                                    <varname type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                        <config type="array">
+                                            <type>input</type>
+                                            <size>255</size>
+                                            <eval>trim</eval>
+                                        </config>
+                                    </varname>
+                                    <data type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob</label>
+                                        <description>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.dataBlob.description</description>
+                                        <config type="array">
+                                            <type>text</type>
+                                            <cols>100</cols>
+                                            <rows>10</rows>
+                                            <wrap>off</wrap>
+                                            <renderType>codeEditor</renderType>
+                                            <format>php</format>
+                                        </config>
+                                    </data>
+                                </el>
+                            </serialized>
+                        </el>
+                    </staticdataproviders>
+                    <filedataprovider type="array">
+                        <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:provider.staticFile</title>
+                        <type>array</type>
+                        <section>1</section>
+                        <el type="array">
+                            <file type="array">
+                                <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:provider.staticFile.item</title>
+                                <type>array</type>
+                                <el type="array">
+                                    <varname type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                        <config type="array">
+                                            <type>input</type>
+                                            <size>255</size>
+                                            <eval>trim</eval>
+                                            <required>1</required>
+                                        </config>
+                                    </varname>
+                                    <format type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.format</label>
+                                        <config type="array">
+                                            <type>select</type>
+                                            <renderType>selectSingle</renderType>
+                                            <items type="array">
+                                                <numIndex index="0" type="array">
+                                                    <label>JSON</label>
+                                                    <value>json</value>
+                                                </numIndex>
+                                                <numIndex index="1" type="array">
+                                                    <label>XML</label>
+                                                    <value>xml</value>
+                                                </numIndex>
+                                                <numIndex index="2" type="array">
+                                                    <label>YAML</label>
+                                                    <value>yaml</value>
+                                                </numIndex>
+                                                <numIndex index="3" type="array">
+                                                    <label>CSV</label>
+                                                    <value>csv</value>
+                                                </numIndex>
+                                                <numIndex index="4" type="array">
+                                                    <label>Plain TXT</label>
+                                                    <value>plain</value>
+                                                </numIndex>
+                                            </items>
+                                            <default>json</default>
+                                        </config>
+                                    </format>
+                                    <filename type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.filename</label>
+                                        <description>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.filename.description</description>
+                                        <config type="array">
+                                            <type>input</type>
+                                            <size>50</size>
+                                            <eval>trim</eval>
+                                            <softref>ext_fileref</softref>
+                                            <required>1</required>
+                                        </config>
+                                    </filename>
+                                </el>
+                            </file>
+                        </el>
+                    </filedataprovider>
+                </el>
+            </ROOT>
+        </sheet.data>
+        <sheet.dynamic type="array">
+            <ROOT type="array">
+                <sheetTitle>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.dynamic</sheetTitle>
+                <sheetDescription>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.dynamic.description</sheetDescription>
+                <type>array</type>
+                <el type="array">
+                    <dynamicdataproviders type="array">
+                        <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:provider.dynamic</title>
+                        <type>array</type>
+                        <section>1</section>
+                        <el type="array">
+                            <php type="array">
+                                <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:dynamic.php.title</title>
+                                <type>array</type>
+                                <el type="array">
+                                    <varname type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.variableName</label>
+                                        <config type="array">
+                                            <type>input</type>
+                                            <size>255</size>
+                                            <eval>trim</eval>
+                                            <required>1</required>
+                                        </config>
+                                    </varname>
+                                    <providerData type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.providerClass</label>
+                                        <config type="array">
+                                            <type>input</type>
+                                            <size>255</size>
+                                            <eval>trim</eval>
+                                            <default>\Sg3w\Inlinefluid\DataProvider\External\ExternalDemoDataProvider</default>
+                                            <required>1</required>
+                                        </config>
+                                    </providerData>
+                                </el>
+                            </php>
+                        </el>
+                    </dynamicdataproviders>
+                </el>
+            </ROOT>
+        </sheet.dynamic>
+        <sheet.html type="array">
+            <ROOT type="array">
+                <sheetTitle>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.html</sheetTitle>
+                <sheetDescription>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:sheet.html.description</sheetDescription>
+                <type>array</type>
+                <el type="array">
+                    <htmlelements type="array">
+                        <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:html.blocks</title>
+                        <type>array</type>
+                        <section>1</section>
+                        <el type="array">
+                            <htmlelement type="array">
+                                <title>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:html.block</title>
+                                <type>array</type>
+                                <el type="array">
+                                    <position type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.htmlPosition</label>
+                                        <config type="array">
+                                            <type>select</type>
+                                            <renderType>selectSingle</renderType>
+                                            <items type="array">
+                                                <numIndex index="0" type="array">
+                                                    <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:html.before</label>
+                                                    <value>0</value>
+                                                </numIndex>
+                                                <numIndex index="1" type="array">
+                                                    <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:html.after</label>
+                                                    <value>1</value>
+                                                </numIndex>
+                                            </items>
+                                        </config>
+                                    </position>
+                                    <content type="array">
+                                        <label>LLL:EXT:inlinefluid/Resources/Private/Language/locallang_flexform.xlf:field.htmlContent</label>
+                                        <config type="array">
+                                            <type>text</type>
+                                            <cols>100</cols>
+                                            <rows>10</rows>
+                                            <wrap>off</wrap>
+                                            <renderType>codeEditor</renderType>
+                                            <format>html</format>
+                                        </config>
+                                    </content>
+                                </el>
+                            </htmlelement>
+                        </el>
+                    </htmlelements>
+                </el>
+            </ROOT>
+        </sheet.html>
+    </sheets>
+</T3DataStructure>

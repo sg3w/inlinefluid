@@ -1,8 +1,12 @@
 <?php
-namespace  Sg3w\Inlinefluid\DataProvider;
+
+declare(strict_types=1);
+
+namespace Sg3w\Inlinefluid\DataProvider;
+
 class JsonDataProvider implements DataProviderInterface
 {
-    public function renderData(string $dataString) :mixed
+    public function renderData(string $dataString): mixed
     {
         return json_decode($dataString, true, 512, JSON_THROW_ON_ERROR);
     }
